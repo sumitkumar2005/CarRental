@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../Components/NavBar/Navbar'
+
 import Category from '../Components/Dashboard/CateGory/Category'
 import Minfo from '../Components/Dashboard/Minfo'
 import Body_main from '../Components/Dashboard/CateGory/Body'
@@ -15,7 +15,7 @@ function PageLayout() {
   return (
     <div>
     
-        <Navbar/>
+       
          <BackGround/>
          <ReservationForm/>
       <Minfo/>

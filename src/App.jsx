@@ -1,22 +1,24 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CarList from './Pages/CarList';
-import Booking from './Pages/Booking';
-import Home from './Layout/PageLayout';
+import { Route, Routes } from 'react-router-dom';
+import PageLayout from './Layout/PageLayout'
 import Navbar from './Components/NavBar/Navbar';
-import ContactUs from './Pages/ContactUs';
-import Car from './Pages/Car';
-import PageLayout from './Layout/PageLayout';
-import BackGround from './Components/NavBar/BackGround';
+import Contact from './pages/Contact';
+import Booking from './pages/Booking';
 import AllCars from './Pages/AllCars';
 import ReservationForm from './Components/NavBar/ReservationForm';
+import CarList from './Pages/CarList';
 
 function App() {
   return (
     <>
-
-   <ReservationForm/>
- </>
-
+     <Navbar/>
+    <Routes>
+     
+      <Route path="/" element={< PageLayout/>} />
+      <Route path="/CarList" element={<CarList />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/Booking" element={<Booking />} />
+    </Routes>
+    </>
   );
 }
 

@@ -20,45 +20,46 @@ function Navbar() {
   }, []);
 
   const handleNavClick = (item) => {
-    setActive(item);
+    setActive(item); // Update the active link
   };
 
   return (
-    <div className=''>
+    <div>
       <div className="Info">
         <div className="NavList">
-          <span
-            onClick={() => handleNavClick('Home')}
+          <Link 
+            to="/" 
+            onClick={() => handleNavClick('Home')} 
             className={active === 'Home' ? 'active' : ''}
           >
-            <Link to={"/"}> Home</Link>
-         
-          </span>
-          <span
-            onClick={() => handleNavClick('Bikes')}
-            className={active === 'Bikes' ? 'active' : ''}
+            Home
+          </Link>
+          <Link 
+            to="/CarList" 
+            onClick={() => handleNavClick('All Cars')} 
+            className={active === 'All Cars' ? 'active' : ''}
           >
-        <Link to={"/CarList"}> AllCars</Link>
-          </span>
-          <span
-            onClick={() => handleNavClick('Contact Us')}
+            All Cars
+          </Link>
+          <Link 
+            to="/contact" 
+            onClick={() => handleNavClick('Contact Us')} 
             className={active === 'Contact Us' ? 'active' : ''}
           >
-            <Link to={"/contact"}>   Contact Us</Link>
-         
-          </span>
-          <span
-            onClick={() => handleNavClick('My Bookings')}
+            Contact Us
+          </Link>
+          <Link 
+            to="/Booking" 
+            onClick={() => handleNavClick('My Bookings')} 
             className={active === 'My Bookings' ? 'active' : ''}
           >
-            <Link to={"Booking"}>   My Bookings</Link>
-         
-          </span>
+            My Bookings
+          </Link>
         </div>
  
       </div>
-      </div>
-      );
+    </div>
+  );
 }
 
-      export default Navbar;
+export default Navbar;

@@ -48,7 +48,7 @@ const CarList = () => {
   return (
     <>
     
-    <Navbar/>
+  
     <h1 className="text-5xl text-left m-36 ">Car Models</h1>
     <div className="flex flex-wrap justify-center gap-4 p-8">
       

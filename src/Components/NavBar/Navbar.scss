@@ -1,0 +1,117 @@
+.Info {
+  position: relative;
+}
+
+.NavList {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  background-color: rgba(255, 255, 255, 0.9);
+
+  span {
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #333;
+
+    &.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background-color: black;
+      transition: width 0.3s ease-in-out;
+    }
+  }
+}
+
+.background {
+  position: relative;
+  top: 0;
+
+  img {
+    width: 100vw;
+    height: 45rem;
+    object-fit: cover;
+    filter: brightness(0.4);
+  }
+
+  .car_info {
+    color: #f5deb3;
+    position: absolute;
+    top: 45%;
+    left: 10%;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  }
+
+  .minInfo {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Enhanced shadow */
+    position: absolute;
+    bottom: -10%; /* Adjust position as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 48rem;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+
+    .loc, .date, .Drop, .drop-date {
+      width: 12rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      p {
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+        font-size: 1rem;
+      }
+
+      input {
+        padding: 0.6rem;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 0.4rem;
+        font-size: 1rem;
+        transition: box-shadow 0.2s ease;
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+          border-color: #888;
+        }
+      }
+    }
+
+    button {
+      background-color: #333;
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 0.4rem;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s, transform 0.2s;
+
+      &:hover {
+        background-color: #555;
+        transform: scale(1.05);
+      }
+    }
+  }
+}

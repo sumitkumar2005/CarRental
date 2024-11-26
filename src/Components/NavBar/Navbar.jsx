@@ -3,7 +3,7 @@ import Car from './../../assets/Images/HomeCar.svg'
 import './Navbar.scss';
 import { Link } from 'react-router-dom';
 
-import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 

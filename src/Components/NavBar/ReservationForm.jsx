@@ -25,15 +25,7 @@ function ReservationForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Reservation Details:");
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Phone:", phone);
-    console.log("Pick-Up Location:", selectedCity);
-    console.log("Drop-Off Location:", drop);
-    console.log("Pick-Up Date:", e.target.pickUpDate.value);
-    console.log("Drop-Off Date:", e.target.dropOffDate.value);
-    console.log("Car Selected:", selectedCar);
+    
   };
 
   const handleClose = () => {
@@ -41,6 +33,9 @@ function ReservationForm() {
     setVisible(false);  
   };
   
+  const handleConfirm =()=>{
+    setVisible(false)
+  }
 
   if (visible==false) return null; 
 
@@ -178,7 +173,7 @@ function ReservationForm() {
           </div>
 
           <div className="mt-8">
-            <button type="submit" className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 focus:outline-none">
+            <button type="submit" className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 focus:outline-none" onClick={handleConfirm}>
               Confirm Reservation
             </button>
           </div>

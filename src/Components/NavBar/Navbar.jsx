@@ -24,7 +24,7 @@ function Navbar() {
   };
 
   return (
-    <div>
+    <div className=''>
       <div className="Info">
         <div className="NavList">
           <Link 

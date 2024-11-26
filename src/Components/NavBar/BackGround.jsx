@@ -7,13 +7,29 @@ import Location from './Location';
 
 function BackGround() {
   return (
-    <div className="relative">
-      <div className="background">
-        <img src={Car} alt="Background" className="w-full h-auto object-cover" />
-        <div data-aos="fade-up" className="car_info text-white absolute top-20 left-0 right-0 text-center text-xl font-bold">
-          Experience Luxury on the Road – Rent Premium Cars, Your Way!
+    <div className="relative w-full">
+      {/* Background Image */}
+      <div className="background relative">
+        <img
+          src={Car}
+          alt="Background"
+          className="w-full h-auto object-cover"
+        />
+
+        {/* Car Info Text */}
+        <div
+          data-aos="fade-up"
+          className="car_info text-white absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 text-center"
+        >
+          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold leading-snug">
+            Experience Luxury on the Road – Rent Premium Cars, Your Way!
+          </h1>
         </div>
-        <Location />
+
+        {/* Location Component */}
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4">
+          <Location />
+        </div>
       </div>
     </div>
   );

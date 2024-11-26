@@ -1,118 +1,205 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Calendar, Car, DollarSign, Palette } from "lucide-react";
 import Navbar from "../Components/NavBar/Navbar";
 import Footer from "./footer";
 import MyContext from "../Components/NavBar/MyContext";
 
+const COLORS = [
+  { name: "Cosmic Black", hex: "#1a1a1a" },
+  { name: "Pearl White", hex: "#f5f5f5" },
+  { name: "Racing Red", hex: "#dc2626" },
+  { name: "Ocean Blue", hex: "#1d4ed8" },
+  { name: "Emerald Green", hex: "#059669" },
+];
+
 const Booking = () => {
   const { name, img } = useContext(MyContext);
   const [storedCars, setStoredCars] = useState([]);
-  const [days, setDays] = useState(1); // State to store number of rental days
-  const [totalPrice, setTotalPrice] = useState(0); // State to store calculated total price
+  const [booking, setBooking] = useState({
+    days: 1,
+    color: COLORS[0].hex,
+    insurance: false,
+    additionalDriver: false,
+  });
 
-  // Save the selected car to localStorage when context changes
+  const basePrice = 78.9;
+  const insurancePerDay = 15;
+  const additionalDriverPerDay = 10;
+
+  // Save car to localStorage when context changes
   useEffect(() => {
     if (name && img) {
-      const newCar = { name, img, price: 78.9 }; // Store price as a number for calculations
-
-      // Get existing cars from localStorage
+      const newCar = { name, img, price: basePrice };
       const existingCars = JSON.parse(localStorage.getItem("selectedCars")) || [];
-
-      // Add the new car to the list and update localStorage
       const updatedCars = [...existingCars, newCar];
       localStorage.setItem("selectedCars", JSON.stringify(updatedCars));
-
-      console.log("Storing Car Data: ", updatedCars);
-      setStoredCars(updatedCars); // Update state
+      setStoredCars(updatedCars);
     }
   }, [name, img]);
 
-  // Retrieve cars from localStorage on initial render
+  // Retrieve stored cars on initial render
   useEffect(() => {
     const cars = JSON.parse(localStorage.getItem("selectedCars")) || [];
-    console.log("Parsed Data from LocalStorage: ", cars);
     setStoredCars(cars);
   }, []);
 
-  // Handle changes in number of days
-  const handleDaysChange = (e) => {
-    const newDays = parseInt(e.target.value) || 1;
-    setDays(newDays);
-
-    // Recalculate total price
-    if (storedCars.length > 0) {
-      const selectedCar = storedCars[storedCars.length - 1]; // Assuming the last car is selected
-      const newTotalPrice = selectedCar.price * newDays;
-      setTotalPrice(newTotalPrice);
-    }
+  // Calculate total price
+  const calculateTotal = () => {
+    const totalBasePrice = booking.days * basePrice;
+    const insuranceCost = booking.insurance ? booking.days * insurancePerDay : 0;
+    const additionalDriverCost = booking.additionalDriver
+      ? booking.days * additionalDriverPerDay
+      : 0;
+    return totalBasePrice + insuranceCost + additionalDriverCost;
   };
+ 
+  if (storedCars.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-600">No car selected. Please select a car first.</p>
+      </div>
+    );
+  }
 
-  // Debugging
-  console.log("Stored Cars Data:", storedCars);
+  const selectedCar = storedCars[storedCars.length - 1]; // Latest selected car
 
   return (
-    <div className="main">
-      <Navbar />
-      <div className="content p-8">
-        <h1 className="text-2xl font-bold mb-8">Booking Page</h1>
-        {storedCars.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {storedCars.map((car, index) => (
-              <div
-                key={index}
-                className="flex flex-col md:flex-row items-center justify-between border border-gray-300 rounded-md p-6 shadow-lg bg-white"
-              >
-                {/* Left Side: Car Image and Details */}
-                <div className="w-full md:w-1/3 text-center">
-                  <img
-                    src={car.img}
-                    alt={car.name}
-                    className="w-full h-48 object-cover rounded-md mb-4"
-                  />
-                  <p className="text-lg font-semibold">{car.name}</p>
-                  <p className="text-gray-600">{`Price: $${car.price}/day`}</p>
+    <div className="min-h-screen bg-gray-50">
+   
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-6">
+            <h1 className="text-3xl font-bold text-white">Complete Your Booking</h1>
+            <p className="text-blue-100 mt-2">Customize your rental experience</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+            {/* Left Section: Car Details */}
+            <div className="space-y-6">
+              <div className="bg-gray-50 rounded-xl p-6 relative overflow-hidden">
+                <div
+                  className="absolute inset-0 opacity-10"
+                  style={{ backgroundColor: booking.color }}
+                />
+                <img
+                  src={selectedCar.img}
+                  alt={selectedCar.name}
+                  className="w-full h-64 object-cover rounded-lg shadow-md"
+                />
+                <h2 className="text-2xl font-bold mt-4">{selectedCar.name}</h2>
+                <div className="flex items-center gap-2 mt-2">
+                  <Car className="w-5 h-5 text-blue-600" />
+                  <span className="text-gray-600">Premium Vehicle</span>
                 </div>
+              </div>
 
-                {/* Right Side: Days Selection, Price Breakup */}
-                <div className="w-full md:w-2/3 mt-4 md:mt-0">
-                  <div className="mb-4">
-                    <label
-                      htmlFor={`days-${index}`}
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Number of Days:
-                    </label>
-                    <input
-                      type="number"
-                      id={`days-${index}`}
-                      value={days}
-                      min="1"
-                      onChange={handleDaysChange}
-                      className="mt-1 p-2 w-20 border border-gray-300 rounded-md"
+              <div className="bg-gray-50 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Palette className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-lg font-semibold">Select Color</h3>
+                </div>
+                <div className="grid grid-cols-5 gap-4">
+                  {COLORS.map((color) => (
+                    <button
+                      key={color.hex}
+                      onClick={() => setBooking((prev) => ({ ...prev, color: color.hex }))}
+                      className={`w-full aspect-square rounded-full border-4 ${
+                        booking.color === color.hex ? "border-blue-500" : "border-transparent"
+                      }`}
+                      style={{ backgroundColor: color.hex }}
+                      title={color.name}
                     />
-                  </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
-                  {/* Price Breakdown */}
-                  <div className="text-gray-700">
-                    <div className="flex justify-between mb-2">
-                      <span>Rent for 1 Day:</span>
-                      <span>${car.price}</span>
+            {/* Right Section: Booking Details */}
+            <div className="space-y-6">
+              <div className="bg-gray-50 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Calendar className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-lg font-semibold">Rental Duration</h3>
+                </div>
+                <input
+                  type="number"
+                  min="1"
+                  value={booking.days}
+                  onChange={(e) =>
+                    setBooking((prev) => ({ ...prev, days: Math.max(1, +e.target.value || 1) }))
+                  }
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="text-lg font-semibold mb-4">Additional Options</h3>
+                <div className="space-y-4">
+                  <label className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={booking.insurance}
+                      onChange={(e) =>
+                        setBooking((prev) => ({ ...prev, insurance: e.target.checked }))
+                      }
+                      className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                    />
+                    <span>Insurance Coverage (${insurancePerDay}/day)</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={booking.additionalDriver}
+                      onChange={(e) =>
+                        setBooking((prev) => ({ ...prev, additionalDriver: e.target.checked }))
+                      }
+                      className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                    />
+                    <span>Additional Driver (${additionalDriverPerDay}/day)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <DollarSign className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-lg font-semibold">Price Breakdown</h3>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Base Rate ({booking.days} days × ${basePrice})</span>
+                    <span>${(booking.days * basePrice).toFixed(2)}</span>
+                  </div>
+                  {booking.insurance && (
+                    <div className="flex justify-between text-gray-600">
+                      <span>Insurance ({booking.days} days × ${insurancePerDay})</span>
+                      <span>${(insurancePerDay * booking.days).toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between mb-2">
-                      <span>Days Renting:</span>
-                      <span>{days} days</span>
+                  )}
+                  {booking.additionalDriver && (
+                    <div className="flex justify-between text-gray-600">
+                      <span>Additional Driver ({booking.days} days × ${additionalDriverPerDay})</span>
+                      <span>${(additionalDriverPerDay * booking.days).toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between font-semibold text-lg">
-                      <span>Total Price:</span>
-                      <span>${totalPrice.toFixed(2)}</span>
+                  )}
+                  <div className="border-t border-gray-200 pt-2 mt-2">
+                    <div className="flex justify-between font-bold text-lg">
+                      <span>Total</span>
+                      <span>${calculateTotal().toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
+
+              <button
+                onClick={() => alert("Booking confirmed! Thank you for choosing our service.")}
+                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Confirm Booking
+              </button>
+            </div>
           </div>
-        ) : (
-          <p>No cars selected. Please select a car to view details.</p>
-        )}
+        </div>
       </div>
       <Footer />
     </div>

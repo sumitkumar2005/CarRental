@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // Import AOS styles
 import Card from '../Components/Cards/card';
+import { Link } from 'react-router-dom';
+
 // Array of car categories (same as before)
 const PopularCars = [
     {
@@ -138,10 +142,8 @@ const OffRoad = [
 ];
 
 function Car() {
-  // State to store selected cars
   const [selectedCars, setSelectedCars] = useState(PopularCars);
 
-  // Function to handle button clicks and update the selected cars
   const handleButtonClick = (carType) => {
     if (carType === 'popular') {
       setSelectedCars(PopularCars);
@@ -156,58 +158,72 @@ function Car() {
     }
   };
 
+  useEffect(() => {
+    AOS.init({ duration: 800, offset: 120, once: true });
+  }, []);
+
   return (
-    <div className='w-[80rem] container mx-auto'>
-      <div className="heading text-center">
-        <h1 className="text-2xl font-bold font-sans mt-10 m-5">Our Impressive Collections Of Cars</h1>
-        <p className="text-lg font-semibold mb-10 w-[50rem] relative left-64">
-          Ranging from elegant sedans to powerful sports cars, all carefully selected to provide our customers with the ultimate driving experience.
+    <div className="container mx-auto px-4 lg:px-8">
+      <div className="heading text-center" data-aos="fade-up">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-sans mt-10 m-5">
+          Our Impressive Collections Of Cars
+        </h1>
+        <p
+          className="text-sm sm:text-base lg:text-lg font-semibold mb-10 mx-auto max-w-3xl"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          Ranging from elegant sedans to powerful sports cars, all carefully
+          selected to provide our customers with the ultimate driving experience.
         </p>
-        {
-          
-        }
-        <div className="flex gap-9 justify-center">
-          <button
-            onClick={() => handleButtonClick('popular')}
-            className="bg-white px-6 py-3 text-black rounded-xl hover:bg-black hover:text-white transition duration-300"
-          >
-            Popular Cars
-          </button>
-          <button
-            onClick={() => handleButtonClick('luxury')}
-            className="bg-white px-6 py-3 text-black rounded-xl hover:bg-black hover:text-white transition duration-300"
-          >
-            Luxury Cars
-          </button>
-          <button
-            onClick={() => handleButtonClick('indian')}
-            className="bg-white px-6 py-3 text-black rounded-xl hover:bg-black hover:text-white transition duration-300"
-          >
-            Indian Cars
-          </button>
-          <button
-            onClick={() => handleButtonClick('family')}
-            className="bg-white px-6 py-3 text-black rounded-xl hover:bg-black hover:text-white transition duration-300"
-          >
-            Family Cars
-          </button>
-          <button
-            onClick={() => handleButtonClick('offroad')}
-            className="bg-white px-6 py-3 text-black rounded-xl hover:bg-black hover:text-white transition duration-300"
-          >
-            Off-road Cars
-          </button>
-        </div>
       </div>
 
-      {/* Card Component: Display selected cars */}
-      <div className="car-grid grid grid-cols-3 gap-4 mt-5">
-        {selectedCars.map((car, index) => (
-          <Card img={car.img} name={car.name}></Card>
+      {/* Button Group */}
+      <div
+        className="flex flex-wrap justify-center gap-4 md:gap-6"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
+        {[
+          { label: 'Popular Cars', type: 'popular' },
+          { label: 'Luxury Cars', type: 'luxury' },
+          { label: 'Indian Cars', type: 'indian' },
+          { label: 'Family Cars', type: 'family' },
+          { label: 'Off-road Cars', type: 'offroad' },
+        ].map((btn, index) => (
+          <button
+            key={index}
+            onClick={() => handleButtonClick(btn.type)}
+            className="bg-white px-4 py-2 md:px-6 md:py-3 text-black rounded-xl hover:bg-black hover:text-white transition duration-300 text-sm md:text-base"
+          >
+            {btn.label}
+          </button>
         ))}
       </div>
+
+      {/* Card Section */}
+      <div className="car-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+        {selectedCars.map((car, index) => (
+          <div
+            key={index}
+            data-aos="zoom-in"
+            data-aos-delay={`${index * 100}`}
+          >
+            <Card img={car.img} name={car.name}></Card>
+          </div>
+        ))}
+      </div>
+
+      {/* All Cars Button */}
+      <button
+        className="bg-black text-white px-6 py-2 md:px-9 md:py-3 rounded-full mt-10 mx-auto block hover:bg-gray-800 transition duration-300"
+      >
+        <Link to="/CarList">All Cars</Link>
+      </button>
     </div>
   );
 }
+
+
 
 export default Car;

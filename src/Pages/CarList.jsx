@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../Components/Cards/card";
 import AllCars from "./AllCars";
-import Navbar from "../Components/NavBar/Navbar";
 import Footer from "./footer";
+import { motion } from "framer-motion";
 
 const carData = [
   {
@@ -41,23 +41,41 @@ const carData = [
     name: "Hyundai Elantra",
     img: "https://tse2.mm.bing.net/th?id=OIP.Cbdgv0AxDd_lQkEwfswbFwHaEN&pid=Api",
   },
-
 ];
 
 const CarList = () => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
-    
-  
-    <h1 className="text-5xl text-left m-36 ">Car Models</h1>
-    <div className="flex flex-wrap justify-center gap-4 p-8">
-      
-      {carData.map((car, index) => (
-        <Card key={index} name={car.name} img={car.img} />
-      ))}
-      <AllCars/>
-    </div>
-    <Footer/>
+      <h1 className="text-5xl text-left mx-16">Car Models</h1>
+      <div className="flex flex-wrap justify-center gap-4 p-8">
+        {carData.map((car, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              delay: index * 0.2,
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+          >
+            <Card name={car.name} img={car.img} />
+          </motion.div>
+        ))}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <AllCars />
+        </motion.div>
+      </div>
+      <Footer />
     </>
   );
 };

@@ -1,15 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import PageLayout from './Layout/PageLayout'
 import Navbar from './Components/NavBar/Navbar';
-import Contact from './pages/Contact';
-import Booking from './pages/Booking';
-import AllCars from './Pages/AllCars';
-import ReservationForm from './Components/NavBar/ReservationForm';
+import Contact from './Pages/Contact';
+import Booking from './Pages/Booking';
 import CarList from './Pages/CarList';
+import LoginPage from './Pages/Login';
+
 
 function App() {
   return (
     <>
+
      <Navbar/>
     <Routes>
      

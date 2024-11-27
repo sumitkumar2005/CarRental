@@ -9,7 +9,7 @@ import ServicesAndBenefits from '../Components/Services/Service'
 import BackGround from '../Components/NavBar/BackGround'
 import ReservationForm from '../Components/NavBar/ReservationForm'
 
-import Footer from '../Pages/footer'
+
 import Car from '../Pages/Car'
 function PageLayout() {
   return (

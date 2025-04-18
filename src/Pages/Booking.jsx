@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Calendar, Car, DollarSign, Palette } from "lucide-react";
 import Navbar from "../Components/NavBar/Navbar";
-import Footer from "./footer";
+import Footer from "./Footer";
+
 import MyContext from "../Components/NavBar/MyContext";
 
 const COLORS = [
@@ -64,145 +65,154 @@ const Booking = () => {
   const selectedCar = storedCars[storedCars.length - 1]; // Latest selected car
 
   return (
-    <div className="min-h-screen bg-gray-50">
-   
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-6">
-            <h1 className="text-3xl font-bold text-white">Complete Your Booking</h1>
-            <p className="text-blue-100 mt-2">Customize your rental experience</p>
+    <div className="min-h-screen bg-black text-white">
+ 
+  
+    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+      <div className="bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-gray-700 to-black px-8 py-6">
+          <h1 className="text-3xl font-bold text-white">Complete Your Booking</h1>
+          <p className="text-gray-400 mt-2">Customize your rental experience</p>
+        </div>
+  
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+          {/* Left Section: Car Details */}
+          <div className="space-y-6">
+            <div className="relative bg-gray-900 rounded-xl p-6">
+              <div
+                className="absolute inset-0 opacity-20"
+                style={{ backgroundColor: booking.color }}
+              />
+              <img
+                src={selectedCar.img}
+                alt={selectedCar.name}
+                className="w-full h-64 object-cover rounded-lg shadow-md"
+              />
+              <h2 className="text-2xl font-bold mt-4">{selectedCar.name}</h2>
+              <div className="flex items-center gap-2 mt-2 text-gray-300">
+                <Car className="w-5 h-5 text-gray-500" />
+                <span>Premium Vehicle</span>
+              </div>
+            </div>
+  
+            {/* Color Picker */}
+            <div className="bg-gray-900 rounded-xl p-6">
+              <div className="flex items-center gap-2 mb-4 text-gray-300">
+                <Palette className="w-5 h-5 text-gray-500" />
+                <h3 className="text-lg font-semibold">Select Color</h3>
+              </div>
+              <div className="grid grid-cols-5 gap-4">
+                {COLORS.map((color) => (
+                  <button
+                    key={color.hex}
+                    onClick={() => setBooking((prev) => ({ ...prev, color: color.hex }))}
+                    className={`w-full aspect-square rounded-full border-4 ${
+                      booking.color === color.hex ? "border-blue-500" : "border-gray-600"
+                    }`}
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
-            {/* Left Section: Car Details */}
-            <div className="space-y-6">
-              <div className="bg-gray-50 rounded-xl p-6 relative overflow-hidden">
-                <div
-                  className="absolute inset-0 opacity-10"
-                  style={{ backgroundColor: booking.color }}
-                />
-                <img
-                  src={selectedCar.img}
-                  alt={selectedCar.name}
-                  className="w-full h-64 object-cover rounded-lg shadow-md"
-                />
-                <h2 className="text-2xl font-bold mt-4">{selectedCar.name}</h2>
-                <div className="flex items-center gap-2 mt-2">
-                  <Car className="w-5 h-5 text-blue-600" />
-                  <span className="text-gray-600">Premium Vehicle</span>
-                </div>
+  
+          {/* Right Section: Booking Details */}
+          <div className="space-y-6">
+            {/* Rental Duration */}
+            <div className="bg-gray-900 rounded-xl p-6">
+              <div className="flex items-center gap-2 mb-4 text-gray-300">
+                <Calendar className="w-5 h-5 text-gray-500" />
+                <h3 className="text-lg font-semibold">Rental Duration</h3>
               </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Palette className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-lg font-semibold">Select Color</h3>
-                </div>
-                <div className="grid grid-cols-5 gap-4">
-                  {COLORS.map((color) => (
-                    <button
-                      key={color.hex}
-                      onClick={() => setBooking((prev) => ({ ...prev, color: color.hex }))}
-                      className={`w-full aspect-square rounded-full border-4 ${
-                        booking.color === color.hex ? "border-blue-500" : "border-transparent"
-                      }`}
-                      style={{ backgroundColor: color.hex }}
-                      title={color.name}
-                    />
-                  ))}
-                </div>
+              <input
+                type="number"
+                min="1"
+                value={booking.days}
+                onChange={(e) =>
+                  setBooking((prev) => ({ ...prev, days: Math.max(1, +e.target.value || 1) }))
+                }
+                className="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+  
+            {/* Additional Options */}
+            <div className="bg-gray-900 rounded-xl p-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-300">Additional Options</h3>
+              <div className="space-y-4">
+                <label className="flex items-center gap-3 text-gray-400">
+                  <input
+                    type="checkbox"
+                    checked={booking.insurance}
+                    onChange={(e) =>
+                      setBooking((prev) => ({ ...prev, insurance: e.target.checked }))
+                    }
+                    className="w-4 h-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
+                  />
+                  <span>Insurance Coverage ($15/day)</span>
+                </label>
+                <label className="flex items-center gap-3 text-gray-400">
+                  <input
+                    type="checkbox"
+                    checked={booking.additionalDriver}
+                    onChange={(e) =>
+                      setBooking((prev) => ({ ...prev, additionalDriver: e.target.checked }))
+                    }
+                    className="w-4 h-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
+                  />
+                  <span>Additional Driver ($10/day)</span>
+                </label>
               </div>
             </div>
-
-            {/* Right Section: Booking Details */}
-            <div className="space-y-6">
-              <div className="bg-gray-50 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Calendar className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-lg font-semibold">Rental Duration</h3>
-                </div>
-                <input
-                  type="number"
-                  min="1"
-                  value={booking.days}
-                  onChange={(e) =>
-                    setBooking((prev) => ({ ...prev, days: Math.max(1, +e.target.value || 1) }))
-                  }
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
-                />
+  
+            {/* Price Breakdown */}
+            <div className="bg-gray-900 rounded-xl p-6">
+              <div className="flex items-center gap-2 mb-4 text-gray-300">
+                <DollarSign className="w-5 h-5 text-gray-500" />
+                <h3 className="text-lg font-semibold">Price Breakdown</h3>
               </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <h3 className="text-lg font-semibold mb-4">Additional Options</h3>
-                <div className="space-y-4">
-                  <label className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      checked={booking.insurance}
-                      onChange={(e) =>
-                        setBooking((prev) => ({ ...prev, insurance: e.target.checked }))
-                      }
-                      className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                    />
-                    <span>Insurance Coverage (${insurancePerDay}/day)</span>
-                  </label>
-                  <label className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      checked={booking.additionalDriver}
-                      onChange={(e) =>
-                        setBooking((prev) => ({ ...prev, additionalDriver: e.target.checked }))
-                      }
-                      className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                    />
-                    <span>Additional Driver (${additionalDriverPerDay}/day)</span>
-                  </label>
+              <div className="space-y-2">
+                <div className="flex justify-between text-gray-400">
+                  <span>Base Rate ({booking.days} days × $78.9)</span>
+                  <span>${(booking.days * basePrice).toFixed(2)}</span>
                 </div>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <DollarSign className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-lg font-semibold">Price Breakdown</h3>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Base Rate ({booking.days} days × ${basePrice})</span>
-                    <span>${(booking.days * basePrice).toFixed(2)}</span>
+                {booking.insurance && (
+                  <div className="flex justify-between text-gray-500">
+                    <span>Insurance ({booking.days} days × $15)</span>
+                    <span>${(insurancePerDay * booking.days).toFixed(2)}</span>
                   </div>
-                  {booking.insurance && (
-                    <div className="flex justify-between text-gray-600">
-                      <span>Insurance ({booking.days} days × ${insurancePerDay})</span>
-                      <span>${(insurancePerDay * booking.days).toFixed(2)}</span>
-                    </div>
-                  )}
-                  {booking.additionalDriver && (
-                    <div className="flex justify-between text-gray-600">
-                      <span>Additional Driver ({booking.days} days × ${additionalDriverPerDay})</span>
-                      <span>${(additionalDriverPerDay * booking.days).toFixed(2)}</span>
-                    </div>
-                  )}
-                  <div className="border-t border-gray-200 pt-2 mt-2">
-                    <div className="flex justify-between font-bold text-lg">
-                      <span>Total</span>
-                      <span>${calculateTotal().toFixed(2)}</span>
-                    </div>
+                )}
+                {booking.additionalDriver && (
+                  <div className="flex justify-between text-gray-500">
+                    <span>Additional Driver ({booking.days} days × $10)</span>
+                    <span>${(additionalDriverPerDay * booking.days).toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="border-t border-gray-600 pt-2 mt-2">
+                  <div className="flex justify-between font-bold text-white text-lg">
+                    <span>Total</span>
+                    <span>${calculateTotal().toFixed(2)}</span>
                   </div>
                 </div>
               </div>
-
-              <button
-                onClick={() => alert("Booking confirmed! Thank you for choosing our service.")}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-              >
-                Confirm Booking
-              </button>
             </div>
+  
+            {/* Confirm Button */}
+            <button
+              onClick={() => alert("Booking confirmed! Thank you for choosing our service.")}
+              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            >
+              Confirm Booking
+            </button>
           </div>
         </div>
       </div>
-      <Footer />
     </div>
+  
+    <Footer />
+  </div>
+  
   );
 };
 

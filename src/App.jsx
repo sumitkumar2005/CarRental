@@ -4,7 +4,6 @@ import Navbar from './Components/NavBar/Navbar';
 import Contact from './Pages/Contact';
 import Booking from './Pages/Booking';
 import CarList from './Pages/CarList';
-import LoginPage from './Pages/Login';
 
 
 function App() {

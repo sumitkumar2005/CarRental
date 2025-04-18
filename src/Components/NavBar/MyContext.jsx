@@ -12,8 +12,11 @@ export const MyProvider = ({ children }) => {  // "children" is the content insi
     const [visible, setVisible] = useState(false);
     const [img, setimg] = useState("");
     const [name, setname] = useState("")
+    const [Pname, setPname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
-    <MyContext.Provider value={{ selectedCity,setSelectedCity,drop,setdrop,visible,setVisible,date,setdate,img,setimg,name,setname}}>
+    <MyContext.Provider value={{ selectedCity,setSelectedCity,drop,setdrop,visible,setVisible,date,setdate,img,setimg,name,setname,Pname,setPname,email,setEmail,password,setPassword}}>
       {children} 
     </MyContext.Provider>
   );

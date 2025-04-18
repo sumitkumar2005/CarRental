@@ -1,11 +1,12 @@
 import React from "react";
 import Navbar from "../Components/NavBar/Navbar";
-import Footer from "./footer";
+import Footer from "./Footer";
+
 const Contact = () => {
 
   return (
     <>
-   
+   <Navbar/>
     <section className="bg-white py-16">
       <div className="container mx-auto px-4 flex flex-col lg:flex-row items-start gap-16">
         {/* Left Section: Contact Info */}

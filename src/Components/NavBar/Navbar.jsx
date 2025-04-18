@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Car from './../../assets/Images/HomeCar.svg'
 import './Navbar.scss';
 import { Link } from 'react-router-dom';
-
-
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -24,8 +21,16 @@ function Navbar() {
   };
 
   return (
-    <div className=''>
+    <div className="Navbar">
       <div className="Info">
+        {/* Logo */}
+        <div className="Logo">
+          <Link to="/" onClick={() => handleNavClick('Home')}>
+            Car<span>Rental</span>
+          </Link>
+        </div>
+
+        {/* Navigation Links */}
         <div className="NavList">
           <Link 
             to="/" 
@@ -56,7 +61,6 @@ function Navbar() {
             My Bookings
           </Link>
         </div>
- 
       </div>
     </div>
   );

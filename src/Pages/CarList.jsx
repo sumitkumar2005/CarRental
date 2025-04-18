@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import Card from "../Components/Cards/card";
 import AllCars from "./AllCars";
-import Footer from "./footer";
+import Footer from "./Footer";
+
 import { motion } from "framer-motion";
 
 const carData = [

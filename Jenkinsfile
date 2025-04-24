@@ -16,25 +16,25 @@ pipeline {
             }
         }
 
-    //  stage( 'Checking')
-    //  {
-    //     steps{
-    //         script{
-    //             ls 
-    //         }
-    //     }
-    //  }
+     stage( 'Checking')
+     {
+        steps{
+            script{
+                ls 
+            }
+        }
+     }
 
-    //     stage('Docker Compose Up') {
-    //         steps {
-    //             script {
-    //                 echo '🔧 Building and starting containers with Docker Compose...'
-    //                 sh """
-    //                     CLIENT_IMAGE=${CLIENT_IMAGE} SERVER_IMAGE=${SERVER_IMAGE} docker-compose up -d --build
-    //                 """
-    //             }
-    //         }
-    //     }
+        stage('Docker Compose Up') {
+            steps {
+                script {
+                    echo '🔧 Building and starting containers with Docker Compose...'
+                    sh """
+                        CLIENT_IMAGE=${CLIENT_IMAGE} SERVER_IMAGE=${SERVER_IMAGE} docker-compose up -d --build
+                    """
+                }
+            }
+        }
     }
 
     post {
